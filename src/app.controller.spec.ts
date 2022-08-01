@@ -1,7 +1,7 @@
 describe('AppController', () => {
   describe('getHello', () => {
     it('should return "Hello World!"', () => {
-      expect(3).toEqual(3);
+      expect(4).toEqual(4);
     });
   });
 });
