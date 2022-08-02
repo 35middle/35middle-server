@@ -1,31 +1,10 @@
 version: "3"
 services:
-  postgres:
-    container_name: postgres
-    image: postgres:latest
+  mongo:
+    image: mongo:latest
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+      MONGO_INITDB_DATABASE: ${MONGO_DATABASE}
     ports:
-      - "5432:5432"
-    volumes:
-      - /data/postgres:/data/postgres
-    env_file:
-      - docker.env
-    networks:
-      - postgres
-
-  pgadmin:
-    links:
-      - postgres:postgres
-    container_name: pgadmin
-    image: dpage/pgadmin4
-    ports:
-      - "8080:80"
-    volumes:
-      - /data/pgadmin:/root/.pgadmin
-    env_file:
-      - docker.env
-    networks:
-      - postgres
-
-networks:
-  postgres:
-    driver: bridge
+      - '27017:27017'
