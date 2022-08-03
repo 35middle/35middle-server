@@ -7,11 +7,10 @@ module.exports = {
   testEnvironment: "node",
   moduleFileExtensions: ["ts", "js", "json", "node"],
   moduleDirectories: ["node_modules"],
-  setupFilesAfterEnv: ["<rootDir>/src/jest.setup.ts"],
   collectCoverage: true,
   collectCoverageFrom: [
     "src/modules/**/*.ts",
     "!src/**/*.{entity,dto,provider,schema,error,d}.ts",
-    "!src/**/{index,constants}.ts"
+    "!src/**/{index,app,server,constants}.ts"
   ]
 }
