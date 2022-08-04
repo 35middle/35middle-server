@@ -80,7 +80,7 @@
     "lint-staged": "11.0.0",
     "nodemon": "^2.0.19",
     "prettier": "^2.3.1",
-    "prettyjson": "1.2.1",
+    "prettyjson": "1.2.5",
     "ts-jest": "^28.0.7",
     "ts-node": "^10.9.1",
     "tsc-watch": "^4.4.0",
