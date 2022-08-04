@@ -53,8 +53,8 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "@commitlint/cli": "12.1.4",
-    "@commitlint/config-conventional": "12.1.4",
+    "@commitlint/cli": "17.0.3",
+    "@commitlint/config-conventional": "17.0.3",
     "@swc/cli": "^0.1.57",
     "@swc/core": "^1.2.223",
     "@types/deep-equal": "1.0.1",
