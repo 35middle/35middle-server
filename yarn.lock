@@ -1430,10 +1430,10 @@
   resolved "https://registry.yarnpkg.com/@types/prettier/-/prettier-2.6.4.tgz#ad899dad022bab6b5a9f0a0fe67c2f7a4a8950ed"
   integrity sha512-fOwvpvQYStpb/zHMx0Cauwywu9yLDmzWiiQBC7gJyq5tYLUXFZvDG7VK1B7WBxxjBJNKFOZ0zLoOQn8vmATbhw==
 
-"@types/prettyjson@0.0.29":
-  version "0.0.29"
-  resolved "https://registry.yarnpkg.com/@types/prettyjson/-/prettyjson-0.0.29.tgz#3d9176d583e1839aa5c83b088487003652ce38ff"
-  integrity sha512-Zu4jAKE46yc6R8JrVkCBWbXhs18dUgI/JlbID4jziFgUBgEdAHxFekR5TlEnk9phHdGE80QlCznRBaxlk0rl7w==
+"@types/prettyjson@0.0.30":
+  version "0.0.30"
+  resolved "https://registry.yarnpkg.com/@types/prettyjson/-/prettyjson-0.0.30.tgz#6d948dd2d3e50c0aac0571dd3e9d712c04517d26"
+  integrity sha512-BQ15wnnSvzlvDAVvd4t+zXjd9o6QAcfBeEUlZcinDYeb0A1xTfRBc0s8nxHlctojnsxDrbiG7amTqLWbXsiK7Q==
 
 "@types/qs@*":
   version "6.9.7"
