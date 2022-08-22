@@ -1,43 +1,30 @@
 module.exports = {
-  parser: "@typescript-eslint/parser", // Specifies the ESLint parser
+  parser: '@typescript-eslint/parser',
+  parserOptions: {
+    project: 'tsconfig.json',
+    sourceType: 'module',
+  },
+  plugins: ['@typescript-eslint/eslint-plugin'],
   extends: [
-    "plugin:@typescript-eslint/recommended", // Uses the recommended rules from the @typescript-eslint/eslint-plugin
-    "plugin:prettier/recommended" // Enables eslint-plugin-prettier and displays prettier errors as ESLint errors. Make sure this is always the last configuration in the extends array.
+    'plugin:@typescript-eslint/eslint-recommended',
+    'plugin:@typescript-eslint/recommended',
+    'prettier',
+    'plugin:prettier/recommended',
   ],
-  plugins: ["@typescript-eslint", "simple-import-sort", "import"],
+  root: true,
   env: {
     node: true,
-    es6: true,
-    mocha: true
-  },
-  globals: {
-    $: true
+    jest: true,
   },
   rules: {
-    "no-console": "warn",
-    eqeqeq: ["warn", "always"],
-    "no-empty-function": "off",
-    "@typescript-eslint/no-empty-function": ["warn"],
-    "@typescript-eslint/explicit-module-boundary-types": "off",
-    "prettier/prettier": "error",
-    "prefer-const": ["error", { destructuring: "all", ignoreReadBeforeAssign: true }],
-    "no-unused-vars": "off",
-    "@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
-    "@typescript-eslint/triple-slash-reference": ["error", { path: "always", types: "never", lib: "never" }],
-    "simple-import-sort/imports": "error",
-    "simple-import-sort/exports": "error",
-    "import/first": "error",
-    "import/newline-after-import": "error",
-    "import/no-duplicates": "error",
-    "import/no-useless-path-segments": ["error"],
-    "@typescript-eslint/ban-types": ["error", { types: { Function: false, Object: false } }]
+    '@typescript-eslint/interface-name-prefix': 'off',
+    '@typescript-eslint/explicit-function-return-type': 'off',
+    '@typescript-eslint/explicit-module-boundary-types': 'off',
+    '@typescript-eslint/no-explicit-any': 2,
+    'no-unused-vars': 'off',
+    '@typescript-eslint/no-unused-vars': ['error'],
+    'require-await': 'off',
+    '@typescript-eslint/require-await': 'error',
+    '@typescript-eslint/no-floating-promises': 'error',
   },
-  overrides: [
-    {
-      files: ["*.test.ts", "jest.setup.ts"],
-      rules: {
-        "@typescript-eslint/no-explicit-any": "off"
-      }
-    }
-  ]
-}
+};
