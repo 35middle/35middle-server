@@ -1,11 +1,12 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ConfigModule } from '@nestjs/config';
 import * as Joi from '@hapi/joi';
 import appConfig from './config/app.config';
 import databaseConfig from './config/database.config';
 import { LoggerModule, Logger } from 'nestjs-pino';
 import { MongooseModule } from '@nestjs/mongoose';
 import HealthModule from './modules/health/health.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -48,6 +49,7 @@ import HealthModule from './modules/health/health.module';
       inject: [ConfigService, Logger],
     }),
     HealthModule,
+    UsersModule
   ],
   controllers: [],
   providers: [],
