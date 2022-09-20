@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import * as Joi from '@hapi/joi';
 import appConfig from './config/app.config';
 import { LoggerModule } from 'nestjs-pino';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { LoggerModule } from 'nestjs-pino';
       }),
       envFilePath: ['.env'],
     }),
+    UsersModule,
   ],
   controllers: [],
   providers: [],
