@@ -7,6 +7,8 @@ import { LoggerModule, Logger } from 'nestjs-pino';
 import { MongooseModule } from '@nestjs/mongoose';
 import HealthModule from './modules/health/health.module';
 import { UsersModule } from './users/users.module';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
 
 @Module({
   imports: [
@@ -51,7 +53,7 @@ import { UsersModule } from './users/users.module';
     HealthModule,
     UsersModule
   ],
-  controllers: [],
-  providers: [],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}
