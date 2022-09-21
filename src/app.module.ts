@@ -4,6 +4,8 @@ import * as Joi from '@hapi/joi';
 import appConfig from './config/app.config';
 import { LoggerModule } from 'nestjs-pino';
 import { UsersModule } from './users/users.module';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
 
 @Module({
   imports: [
@@ -33,7 +35,7 @@ import { UsersModule } from './users/users.module';
     }),
     UsersModule,
   ],
-  controllers: [],
-  providers: [],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}

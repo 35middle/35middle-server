@@ -1,13 +1,14 @@
-import { IsEmail, IsNotEmpty } from 'class-validator';
+// import { IsEmail, IsNotEmpty } from 'class-validator';
+// import { User } from '../interfaces/user.interface'
 
 export class CreateUserDto {
-  // readonly id: number;
-  // readonly email: string;
-  // readonly password?: number;
-
-  @IsEmail()
+  id: number;
   email: string;
+  password?: string;
 
-  @IsNotEmpty()
-  password: string;
+  // @IsEmail()
+  // email: string;
+
+  // @IsNotEmpty()
+  // password: string;
 }
