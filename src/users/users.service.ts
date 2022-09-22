@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
+import { CreateUserDto } from './dto/create-user.dto';
 import { User } from './models/user.model';
-// import { v4 as uuid } from 'uuid';
-// import { CreateUserDto } from './dto/create-user.dto';
+import { v4 as uuid } from 'uuid';
 @Injectable()
 export class UsersService {
   private users: User[] = [
@@ -10,33 +10,32 @@ export class UsersService {
       email: '123@qq.com',
       password: '1234',
     },
+    {
+      id: 2,
+      email: '1234@qq.com',
+      password: '12345',
+    },
   ];
 
   findAll(): User[] {
     return this.users;
   }
 
-  // getUserById(id: string): User {
-  //   return this.users.find((user) => user.id === id);
-  // }
+  findOne(id: number): User {
+    return this.users.find((user) => user.id === id);
+  }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  // createUser(createUserDto: CreateUserDto): User {
-  //   const { email, password } = CreateUserDto;
-  //   const user: User = {
-  //     id: uuid(),
-  //     email,
-  //     password,
-  //     status: UserStatus.ACTIVE,
-  //   };
+  createUser(createUserDto: CreateUserDto): User {
+    const { email, password } = createUserDto;
+    const user: User = {
+      id: uuid(),
+      email,
+      password,
+    };
 
-  //   this.users.push(user);
-  //   return user;
-  // }
-
-  // findOne(id: string): User[] {
-  //   return this.users.find((user) => user.id === id);
-  // }
+    this.users.push(user);
+    return user;
+  }
 
   // async create(createUserDto: CreateUserDto) {
   //   const user = User.create(createUserDto);

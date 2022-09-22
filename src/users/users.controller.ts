@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+import { number } from '@hapi/joi';
 import {
   Body,
   Controller,
@@ -21,15 +22,10 @@ export class UsersController {
     return this.usersService.findAll();
   }
 
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.usersService.findOne(+id);
-  // }
-
-  // @Get('/:id')
-  // getUserById(@Param('id') id: string): User {
-  //   return this.usersService.getUserById(id);
-  // }
+  @Get(':id')
+  findOne(@Param('id') id): User {
+    return this.usersService.findOne(id);
+  }
 
   // @Post()
   // createUser(@Body() createUserDto: CreateUserDto): User {
@@ -41,15 +37,25 @@ export class UsersController {
     return `Email ${createUserDto.email} Password: ${createUserDto.password}`;
   }
 
+  @Delete(':id')
+  delete(@Param('id') id): string {
+    return `Delete User ${id}`;
+  }
+
+  @Put(':id')
+  update(@Param('id') id): string {
+    return `Update User ${id}`;
+  }
+
   // @Delete(':id')
   // remove(@Param('id') id): string {
   //   return this.usersService.remove(+id);
   // }
 
-  @Put(':id')
-  update(@Body() updateUserDto: CreateUserDto, @Param('id') id): string {
-    return `Update ${id} - Email: ${updateUserDto.email}`;
-  }
+  // @Put(':id')
+  // update(@Body() updateUserDto: CreateUserDto, @Param('id') id): string {
+  //   return `Update ${id} - Email: ${updateUserDto.email}`;
+  // }
 
   // @Post()
   // create(@Body() createUserDto: CreateUserDto) {
