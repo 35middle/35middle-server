@@ -2,7 +2,9 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from '@hapi/joi';
 import appConfig from './config/app.config';
+import databaseConfig from './config/database.config';
 import { LoggerModule } from 'nestjs-pino';
+import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
   imports: [
@@ -17,7 +19,7 @@ import { LoggerModule } from 'nestjs-pino';
     }),
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [appConfig],
+      load: [appConfig, databaseConfig],
       validationSchema: Joi.object({
         // POSTGRES_HOST: Joi.string().required(),
         // POSTGRES_PORT: Joi.number().required(),
@@ -30,6 +32,10 @@ import { LoggerModule } from 'nestjs-pino';
       }),
       envFilePath: ['.env'],
     }),
+
+    MongooseModule.forRoot(
+      `mongodb+srv://${process.env.DATABASE_USER}:${process.env.DATABASE_PASSWORD}@35middlenonprod.fwbnxxb.mongodb.net/testdb?retryWrites=true&w=majority`,
+    ),
   ],
   controllers: [],
   providers: [],
