@@ -14,8 +14,6 @@ export class UsersRepo {
   async create(createUserDto: CreateUserDto) {
     // strict consistency
     const exist = await this.findByEmail(createUserDto.email);
-    console.log(createUserDto.email);
-    console.log(exist);
 
     // conflicts with active customer
     if (exist) throw new UserExistException(createUserDto.email);
