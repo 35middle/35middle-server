@@ -24,7 +24,7 @@ module.exports = {
     'no-unused-vars': 'off',
     '@typescript-eslint/no-unused-vars': ['error'],
     'require-await': 'off',
-    '@typescript-eslint/require-await': 'error',
+    '@typescript-eslint/require-await': 'off',
     '@typescript-eslint/no-floating-promises': 'error',
   },
 };

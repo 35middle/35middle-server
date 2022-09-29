@@ -1,49 +1,48 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { number } from '@hapi/joi';
 import {
   Body,
   Controller,
   Delete,
-  Get,
   Param,
   Post,
   Put,
+  UseFilters,
 } from '@nestjs/common';
-import { CreateUserDto } from './dto/create-user.dto';
-import { User } from './models/user.model';
+import { CreateUserDto } from './dto/createUser.dto';
 import { UsersService } from './users.service';
+import { MongoIdParams } from '../../utils/MongoIdParams';
+import { UserEntity } from './user.entity';
+import { ExceptionsLoggerFilter } from '../../filters/exceptionsLogger.filter';
 
-@Controller('users')
+@Controller({
+  version: '1',
+  path: 'users',
+})
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Get()
-  findAll(): User[] {
-    return this.usersService.findAll();
-  }
-
-  @Get(':id')
-  findOne(@Param('id') id): User {
-    return this.usersService.findOne(id);
-  }
-
-  // @Post()
-  // createUser(@Body() createUserDto: CreateUserDto): User {
-  //   return this.usersService.createUser(CreateUserDto);
+  // @Get()
+  // findAll(): User[] {
+  //   return this.usersService.findAll();
+  // }
+  //
+  // @Get(':id')
+  // findOneById(@Param() { id }: MongoIdParams): User {
+  //   return this.usersService.findOne(id);
   // }
 
-  @Post(':id')
-  create(@Body() createUserDto: CreateUserDto): string {
-    return `Email ${createUserDto.email} Password: ${createUserDto.password}`;
+  @Post()
+  @UseFilters(ExceptionsLoggerFilter)
+  async create(@Body() createUserDto: CreateUserDto): Promise<UserEntity> {
+    return this.usersService.createUser(createUserDto);
   }
 
   @Delete(':id')
-  delete(@Param('id') id): string {
+  delete(@Param() { id }: MongoIdParams): string {
     return `Delete User ${id}`;
   }
 
   @Put(':id')
-  update(@Param('id') id): string {
+  update(@Param() { id }: MongoIdParams): string {
     return `Update User ${id}`;
   }
 
