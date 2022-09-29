@@ -1,8 +1,8 @@
 import { registerAs } from '@nestjs/config';
 
 export default registerAs('database', () => ({
-  user: process.env.DATABASE_USER,
-  password: process.env.DATABASE_PASSWORD,
-  host: process.env.DATABASE_HOST,
-  port: process.env.DATABASE_PORT || 8000,
+  user: process.env.MONGO_USERNAME,
+  password: process.env.MONGO_PASSWORD,
+  dbName: process.env.MONGO_DATABASE,
+  host: process.env.MONGO_HOST,
 }));
