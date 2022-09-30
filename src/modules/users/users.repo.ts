@@ -11,9 +11,7 @@ export class UsersRepo {
 
   async create(createUserDto: CreateUserDto) {
     // strict consistency
-    const exist = await this.userModel.findOne({
-      email: createUserDto.email,
-    });
+    const exist = this.findByEmail(createUserDto.email);
 
     // conflicts with active customer
     if (exist) throw new UserExistException(createUserDto.email);
@@ -23,5 +21,11 @@ export class UsersRepo {
       archivedAt: null,
     });
     return createdUser.save();
+  }
+
+  async findByEmail(email: string) {
+    return this.userModel.findOne({
+      email: email,
+    });
   }
 }

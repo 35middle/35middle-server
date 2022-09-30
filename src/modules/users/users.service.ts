@@ -9,6 +9,13 @@ export class UsersService {
 
   async createUser(createUserDto: CreateUserDto): Promise<UserEntity> {
     const plainObj = await this.usersRepo.create(createUserDto);
+
+    return UserEntity.fromObject(plainObj);
+  }
+
+  async findByEmail(email: string): Promise<UserEntity> {
+    const plainObj = await this.usersRepo.findByEmail(email);
+
     return UserEntity.fromObject(plainObj);
   }
 
