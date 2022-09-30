@@ -1,8 +1,11 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import * as Joi from '@hapi/joi';
 import appConfig from './config/app.config';
-import { LoggerModule } from 'nestjs-pino';
+import databaseConfig from './config/database.config';
+import { LoggerModule, Logger } from 'nestjs-pino';
+import { MongooseModule } from '@nestjs/mongoose';
+import HealthModule from './modules/health/health.module';
 
 @Module({
   imports: [
@@ -17,19 +20,34 @@ import { LoggerModule } from 'nestjs-pino';
     }),
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [appConfig],
+      load: [appConfig, databaseConfig],
       validationSchema: Joi.object({
-        // POSTGRES_HOST: Joi.string().required(),
-        // POSTGRES_PORT: Joi.number().required(),
-        // POSTGRES_USER: Joi.string().required(),
-        // POSTGRES_PASSWORD: Joi.string().required(),
-        // POSTGRES_DB: Joi.string().required(),
         APP_PORT: Joi.number(),
-        // JWT_SECRET: Joi.string().required(),
-        // JWT_EXPIRATION_TIME: Joi.string().required(),
+        MONGO_USERNAME: Joi.string().required(),
+        MONGO_PASSWORD: Joi.string().required(),
+        MONGO_DATABASE: Joi.string().required(),
+        MONGO_HOST: Joi.string().required(),
       }),
       envFilePath: ['.env'],
     }),
+    MongooseModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: (configService: ConfigService, logger: Logger) => {
+        const username = configService.get('database.user');
+        const password = configService.get('database.password');
+        const dbName = configService.get('database.dbName');
+        const host = configService.get('database.host');
+        const uri = `mongodb+srv://${username}:${password}@${host}/?retryWrites=true&w=majority`;
+        logger.log(`Connecting to database ${dbName} at ${uri}`);
+
+        return {
+          uri,
+          dbName,
+        };
+      },
+      inject: [ConfigService, Logger],
+    }),
+    HealthModule,
   ],
   controllers: [],
   providers: [],
