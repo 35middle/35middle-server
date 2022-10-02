@@ -22,4 +22,8 @@ export class UsersService {
   async findById(id: string): Promise<UserEntity> {
     return await this.usersRepo.findById(id);
   }
+
+  async resetPassword(id: string, password: string) {
+    return await this.usersRepo.resetPassword(id, password);
+  }
 }

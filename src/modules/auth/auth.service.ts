@@ -28,6 +28,7 @@ export class AuthService {
     console.log(user);
     if (user) {
       user.password = password;
+      await this.usersService.resetPassword(id, password);
       console.log('user exist');
       return ResetPasswordEntity.fromObject({ success: true });
     } else {

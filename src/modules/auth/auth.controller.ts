@@ -22,16 +22,16 @@ export class AuthController {
     return this.authService.forgetPassword(forgetPasswordDto);
   }
 
-  @Post('/issueToken')
-  async issueToken() {
-    const xxx = {
-      email: 'mengyao@ddd.com',
-      _id: '63396a9b1b3f755af1ba2c92',
-    };
-
-    const token = this.jwtService.sign(xxx);
-    console.log(token);
-  }
+  // @Post('/issueToken')
+  // async issueToken() {
+  //   const xxx = {
+  //     email: 'tine@gmail.com',
+  //     _id: '63397f3833decf194b589612',
+  //   };
+  //
+  //   const token = this.jwtService.sign(xxx);
+  //   console.log(token);
+  // }
 
   @Put('/reset-password')
   async resetPassword(
@@ -45,8 +45,6 @@ export class AuthController {
         email: string;
         _id: string;
       };
-      console.log(user._id);
-      console.log(user.email);
       return this.authService.resetPassword(
         resetPasswordDto.password,
         user._id,
