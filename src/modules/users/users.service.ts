@@ -18,4 +18,8 @@ export class UsersService {
 
     return UserEntity.fromObject(plainObj);
   }
+
+  async findById(id: string): Promise<UserEntity> {
+    return await this.usersRepo.findById(id);
+  }
 }
