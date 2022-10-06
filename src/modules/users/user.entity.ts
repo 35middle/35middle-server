@@ -1,5 +1,4 @@
 import { plainToClass, Transform, Expose } from 'class-transformer';
-
 export class UserEntity {
   @Expose()
   @Transform(({ obj }) => {
