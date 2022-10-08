@@ -763,7 +763,7 @@
   resolved "https://registry.npmjs.org/@nestjs/mapped-types/-/mapped-types-1.1.0.tgz"
   integrity sha512-+2kSly4P1QI+9eGt+/uGyPdEG1hVz7nbpqPHWZVYgoqz8eOHljpXPag+UCVRw9zo2XCu4sgNUIGe8Uk0+OvUQg==
 
-"@nestjs/mongoose@^9.2.0":
+"@nestjs/mongoose@9.2.0":
   version "9.2.0"
   resolved "https://registry.yarnpkg.com/@nestjs/mongoose/-/mongoose-9.2.0.tgz#38c1faf8402c93294ead64d442d18f715b734a5f"
   integrity sha512-fC33b8nwR7C3y6hlTyKjiHQVU57SFOd3Dwa6alWj3BOhK5bHt8Ld6qOK2G35/XXPHjtSIk3LIKEqwyK5xGcmBA==
@@ -806,7 +806,7 @@
     path-to-regexp "3.2.0"
     swagger-ui-dist "4.13.2"
 
-"@nestjs/terminus@^9.1.2":
+"@nestjs/terminus@9.1.2":
   version "9.1.2"
   resolved "https://registry.yarnpkg.com/@nestjs/terminus/-/terminus-9.1.2.tgz#2732971e9d1d9e4c42e6823aca2a311dbce3bf9f"
   integrity sha512-6itH7tVucUyN/NTImnIiVmdiIVbvUCUXVzDjlNiHzl9DLx3dRyN4fyfFFS1ICcg7O0OhXNOCuDd/onV8ceH1Hg==
@@ -3999,7 +3999,7 @@ mongodb@4.9.1:
   optionalDependencies:
     saslprep "^1.0.3"
 
-mongoose@^6.6.1:
+mongoose@6.6.1:
   version "6.6.1"
   resolved "https://registry.yarnpkg.com/mongoose/-/mongoose-6.6.1.tgz#8aec30924b1a524924d9de4eb4746951f6aadd26"
   integrity sha512-hPDamnn6quL9TjIrOudqUS5sMilENmP/gfxoCIb+rDmlzawtM7+MVCAWrM9930fzD20N7qAema/zE9QIDuifhQ==
