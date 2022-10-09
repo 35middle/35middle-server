@@ -22,10 +22,8 @@ export class UsersService {
     return UserEntity.fromObject(plainObj);
   }
 
-  async findByEmail(email: string): Promise<UserEntity> {
-    const plainObj = await this.usersRepo.findByEmail(email);
-
-    return UserEntity.fromObject(plainObj);
+  async findByEmail(email: string) {
+    return this.usersRepo.findByEmail(email);
   }
 
   async findById(id: string): Promise<UserEntity> {

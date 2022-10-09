@@ -3,6 +3,7 @@ import { ForgetPasswordDto } from './dto/forgetPassword.dto';
 import { ResetPasswordEntity } from './entity/resetPassword.entity';
 import { ForgetPasswordEntity } from './entity/forgetPassword.entity';
 import { UsersService } from '../users/users.service';
+import { comparePassword } from '../utils/bcrypt';
 import { EncryptionService } from './encryption/encryption.service';
 import { UserEntity } from '../users/user.entity';
 import { CreateUserDto } from '../users/dto/createUser.dto';
@@ -53,6 +54,14 @@ export class AuthService {
     const _id = await this.encryptionService.decryptText(token);
 
     return this.usersService.findById(_id);
+  }
+
+  async validateUser(email: string, pass: string): Promise<any> {
+    const user = await this.usersService.findByEmail(email);
+    if (user && comparePassword(pass, user.password)) {
+      return user;
+    }
+    return null;
   }
 
   async forgetPassword(
