@@ -37,7 +37,11 @@ export class UsersRepo {
     return this.userModel.findById(id);
   }
 
-  async resetPassword(id: string, password: string) {
-    return this.userModel.findByIdAndUpdate(id, { password }, { new: true });
+  async resetPassword(email: string, password: string) {
+    return this.userModel.findOneAndUpdate(
+      { email },
+      { password },
+      { new: true },
+    );
   }
 }

@@ -22,17 +22,9 @@ export class AuthService {
 
   async resetPassword(
     password: string,
-    id: string,
+    email: string,
   ): Promise<ResetPasswordEntity> {
-    const user = await this.usersService.findById(id);
-    console.log(user);
-    if (user) {
-      user.password = password;
-      await this.usersService.resetPassword(id, password);
-      console.log('user exist');
-      return ResetPasswordEntity.fromObject({ success: true });
-    } else {
-      throw new Error('user not found');
-    }
+    await this.usersService.resetPassword(email, password);
+    return ResetPasswordEntity.fromObject({ success: true });
   }
 }
