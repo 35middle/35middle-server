@@ -23,7 +23,7 @@ export class UsersRepo {
     return (
       await this.userModel.create({
         ...createUserDto,
-        password: encodePassword(createUserDto.password)
+        password: encodePassword(createUserDto.password),
         archivedAt: null,
       })
     ).toObject<CreatedUser>();
