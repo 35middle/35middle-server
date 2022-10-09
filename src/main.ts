@@ -2,7 +2,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import * as cookieParser from 'cookie-parser';
 import { ConfigService } from '@nestjs/config';
-import { VersioningType } from '@nestjs/common';
+import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { Logger } from 'nestjs-pino';
 
@@ -13,6 +13,7 @@ async function bootstrap() {
 
   app.use(cookieParser());
   app.useLogger(app.get(Logger));
+  app.useGlobalPipes(new ValidationPipe());
   app.setGlobalPrefix(configService.get('app.apiPrefix'), {
     exclude: ['/'],
   });

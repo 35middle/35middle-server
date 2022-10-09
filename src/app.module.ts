@@ -6,6 +6,10 @@ import databaseConfig from './config/database.config';
 import { LoggerModule, Logger } from 'nestjs-pino';
 import { MongooseModule } from '@nestjs/mongoose';
 import HealthModule from './modules/health/health.module';
+import { UsersModule } from './modules/users/users.module';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   imports: [
@@ -48,8 +52,10 @@ import HealthModule from './modules/health/health.module';
       inject: [ConfigService, Logger],
     }),
     HealthModule,
+    UsersModule,
+    AuthModule,
   ],
-  controllers: [],
-  providers: [],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}
