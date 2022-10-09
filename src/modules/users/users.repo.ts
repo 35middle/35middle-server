@@ -4,6 +4,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { User, UserDocument } from './users.schema';
 import { UserExistException } from './exceptions/userExist.exception';
+import { CreatedUser } from './types';
 
 @Injectable()
 export class UsersRepo {
@@ -16,11 +17,12 @@ export class UsersRepo {
     // conflicts with active customer
     if (exist) throw new UserExistException(createUserDto.email);
 
-    const createdUser = new this.userModel({
-      ...createUserDto,
-      archivedAt: null,
-    });
-    return createdUser.save();
+    return (
+      await this.userModel.create({
+        ...createUserDto,
+        archivedAt: null,
+      })
+    ).toObject<CreatedUser>();
   }
 
   async findByEmail(email: string) {

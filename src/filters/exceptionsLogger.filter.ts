@@ -7,6 +7,7 @@ export class ExceptionsLoggerFilter extends BaseExceptionFilter {
   constructor(private logger: Logger) {
     super();
   }
+
   catch(exception: unknown, host: ArgumentsHost) {
     this.logger.error('Exception thrown', exception);
     super.catch(exception, host);

@@ -2,7 +2,9 @@ import { plainToClass, Transform, Expose } from 'class-transformer';
 
 export class UserEntity {
   @Expose()
-  @Transform(({ value }) => value.toString(), { toClassOnly: true })
+  @Transform(({ obj }) => {
+    return obj._id.toString();
+  })
   _id: string;
 
   @Expose()

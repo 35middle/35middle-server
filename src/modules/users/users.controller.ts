@@ -20,16 +20,6 @@ import { ExceptionsLoggerFilter } from '../../filters/exceptionsLogger.filter';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  // @Get()
-  // findAll(): User[] {
-  //   return this.usersService.findAll();
-  // }
-  //
-  // @Get(':id')
-  // findOneById(@Param() { id }: MongoIdParams): User {
-  //   return this.usersService.findOne(id);
-  // }
-
   @Post()
   @UseFilters(ExceptionsLoggerFilter)
   async create(@Body() createUserDto: CreateUserDto): Promise<UserEntity> {
@@ -45,24 +35,4 @@ export class UsersController {
   update(@Param() { id }: MongoIdParams): string {
     return `Update User ${id}`;
   }
-
-  // @Delete(':id')
-  // remove(@Param('id') id): string {
-  //   return this.usersService.remove(+id);
-  // }
-
-  // @Put(':id')
-  // update(@Body() updateUserDto: CreateUserDto, @Param('id') id): string {
-  //   return `Update ${id} - Email: ${updateUserDto.email}`;
-  // }
-
-  // @Post()
-  // create(@Body() createUserDto: CreateUserDto) {
-  //   return this.usersService.create(createUserDto);
-  // }
-
-  // @Patch()
-  // update(@Param('id) id: string) {
-  //   return this.usersService.update(+id, updateUserDto);
-  // }
 }
