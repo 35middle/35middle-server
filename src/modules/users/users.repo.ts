@@ -12,7 +12,9 @@ export class UsersRepo {
 
   async create(createUserDto: CreateUserDto) {
     // strict consistency
-    const exist = this.findByEmail(createUserDto.email);
+    const exist = await this.findByEmail(createUserDto.email);
+    console.log(createUserDto.email);
+    console.log(exist);
 
     // conflicts with active customer
     if (exist) throw new UserExistException(createUserDto.email);
@@ -29,5 +31,17 @@ export class UsersRepo {
     return this.userModel.findOne({
       email: email,
     });
+  }
+
+  async findById(id: string) {
+    return this.userModel.findById(id);
+  }
+
+  async resetPassword(email: string, password: string) {
+    return this.userModel.findOneAndUpdate(
+      { email },
+      { password },
+      { new: true },
+    );
   }
 }

@@ -10,6 +10,9 @@ export class UserEntity {
   @Expose()
   email: string;
 
+  @Expose()
+  password: string;
+
   static async fromObject(obj: unknown): Promise<UserEntity> {
     if (!obj) return null;
     return plainToClass(UserEntity, obj, { excludeExtraneousValues: true });
