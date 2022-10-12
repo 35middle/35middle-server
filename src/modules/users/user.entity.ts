@@ -10,6 +10,18 @@ export class UserEntity {
   @Expose()
   email: string;
 
+  @Expose()
+  lastName: string;
+
+  @Expose()
+  firstName: string;
+
+  @Expose()
+  @Transform(({ obj }) => {
+    return obj._id.toString();
+  })
+  accountId: string;
+
   static async fromObject(obj: unknown): Promise<UserEntity> {
     if (!obj) return null;
     return plainToClass(UserEntity, obj, { excludeExtraneousValues: true });

@@ -1,17 +1,6 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Param,
-  Post,
-  Put,
-  UseFilters,
-} from '@nestjs/common';
-import { CreateUserDto } from './dto/createUser.dto';
+import { Controller, Delete, Param, Put } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { MongoIdParams } from '../../utils/MongoIdParams';
-import { UserEntity } from './user.entity';
-import { ExceptionsLoggerFilter } from '../../filters/exceptionsLogger.filter';
 
 @Controller({
   version: '1',
@@ -19,12 +8,6 @@ import { ExceptionsLoggerFilter } from '../../filters/exceptionsLogger.filter';
 })
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
-
-  @Post()
-  @UseFilters(ExceptionsLoggerFilter)
-  async create(@Body() createUserDto: CreateUserDto): Promise<UserEntity> {
-    return this.usersService.createUser(createUserDto);
-  }
 
   @Delete(':id')
   delete(@Param() { id }: MongoIdParams): string {
