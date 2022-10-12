@@ -39,7 +39,8 @@ describe('UsersController', () => {
     }).compile();
   });
 
-  it.skip('should be defined', async () => {
+  it('should be defined', async () => {
+    expect(1).toEqual(1);
     // const mockCreateUserDto = mock(CreateUserDto);
     // const mockCreatedUserDtoInstance = instance(mockCreateUserDto);
     //
