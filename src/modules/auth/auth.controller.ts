@@ -13,6 +13,8 @@ import { ResetPasswordEntity } from './entity/resetPassword.entity';
 import { AuthService } from './auth.service';
 import { JwtService } from '@nestjs/jwt';
 import { JwtGuard } from '../../guards/jwt.guard';
+import { UserEntity } from '../users/user.entity';
+import { CreateUserDto } from '../users/dto/createUser.dto';
 
 @Controller({
   version: '1',
@@ -22,6 +24,11 @@ export class AuthController {
     private readonly authService: AuthService,
     private readonly jwtService: JwtService,
   ) {}
+
+  @Post('/register')
+  async register(@Body() createUserDto: CreateUserDto): Promise<UserEntity> {
+    return this.authService.register(createUserDto);
+  }
 
   @Post('/forget-password')
   async forgetPassword(
