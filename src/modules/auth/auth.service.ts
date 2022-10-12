@@ -5,12 +5,41 @@ import { ForgetPasswordEntity } from './entity/forgetPassword.entity';
 import { UsersService } from '../users/users.service';
 import { EncryptionService } from './encryption/encryption.service';
 import { UserEntity } from '../users/user.entity';
+import { CreateUserDto } from '../users/dto/createUser.dto';
+import { AccountsService } from '../accounts/accounts.service';
+import * as mongoose from 'mongoose';
+import { InjectConnection } from '@nestjs/mongoose';
+
 @Injectable()
 export class AuthService {
   constructor(
     private readonly usersService: UsersService,
+    private readonly accountsService: AccountsService,
     private readonly encryptionService: EncryptionService,
+    @InjectConnection() private readonly connection: mongoose.Connection,
   ) {}
+
+  async register(createUserDto: CreateUserDto): Promise<UserEntity> {
+    const session = await this.connection.startSession();
+    session.startTransaction();
+
+    try {
+      const newAccount = await this.accountsService.createAccount(session);
+      const newUser = await this.usersService.createUser(
+        createUserDto,
+        new mongoose.Types.ObjectId(newAccount._id),
+        session,
+      );
+
+      await session.commitTransaction();
+      return newUser;
+    } catch (e) {
+      await session.abortTransaction();
+      throw e;
+    } finally {
+      await session.endSession();
+    }
+  }
 
   private async getForgetPasswordTokenFromUser(
     user: UserEntity,

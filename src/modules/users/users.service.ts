@@ -2,13 +2,22 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateUserDto } from './dto/createUser.dto';
 import { UsersRepo } from './users.repo';
 import { UserEntity } from './user.entity';
+import mongoose from 'mongoose';
 
 @Injectable()
 export class UsersService {
   constructor(private readonly usersRepo: UsersRepo) {}
 
-  async createUser(createUserDto: CreateUserDto): Promise<UserEntity> {
-    const plainObj = await this.usersRepo.create(createUserDto);
+  async createUser(
+    createUserDto: CreateUserDto,
+    accountId: mongoose.Types.ObjectId,
+    session?: mongoose.ClientSession,
+  ): Promise<UserEntity> {
+    const plainObj = await this.usersRepo.createUser(
+      createUserDto,
+      accountId,
+      session,
+    );
 
     return UserEntity.fromObject(plainObj);
   }
@@ -20,7 +29,8 @@ export class UsersService {
   }
 
   async findById(id: string): Promise<UserEntity> {
-    return await this.usersRepo.findById(id);
+    const plainObj = await this.usersRepo.findById(id);
+    return UserEntity.fromObject(plainObj);
   }
 
   async resetPassword(email: string, password: string) {
