@@ -45,10 +45,8 @@ export class UsersRepo {
   }
 
   async resetPassword(email: string, password: string): Promise<IUser> {
-    return this.userModel.findOneAndUpdate(
-      { email },
-      { password },
-      { new: true },
-    );
+    return this.userModel
+      .findOneAndUpdate({ email }, { password }, { new: true })
+      .lean();
   }
 }

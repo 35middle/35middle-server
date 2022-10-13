@@ -29,7 +29,8 @@ export class AuthController {
 
   @Post('/register')
   async register(@Body() createUserDto: CreateUserDto): Promise<UserEntity> {
-    return this.authService.register(createUserDto);
+    const user = this.authService.register(createUserDto);
+    return UserEntity.fromObject(user);
   }
 
   @UseGuards(AuthGuard('local'))

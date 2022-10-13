@@ -1,8 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateUserDto } from './dto/createUser.dto';
 import { UsersRepo } from './users.repo';
-import { UserEntity } from './user.entity';
 import mongoose from 'mongoose';
+import { IUser } from './types';
 
 @Injectable()
 export class UsersService {
@@ -12,26 +12,19 @@ export class UsersService {
     createUserDto: CreateUserDto,
     accountId: mongoose.Types.ObjectId,
     session?: mongoose.ClientSession,
-  ): Promise<UserEntity> {
-    const plainObj = await this.usersRepo.createUser(
-      createUserDto,
-      accountId,
-      session,
-    );
-
-    return UserEntity.fromObject(plainObj);
+  ): Promise<IUser> {
+    return this.usersRepo.createUser(createUserDto, accountId, session);
   }
 
-  async findByEmail(email: string) {
+  async findByEmail(email: string): Promise<IUser> {
     return this.usersRepo.findByEmail(email);
   }
 
-  async findById(id: string): Promise<UserEntity> {
-    const plainObj = await this.usersRepo.findById(id);
-    return UserEntity.fromObject(plainObj);
+  async findById(id: string): Promise<IUser> {
+    return this.usersRepo.findById(id);
   }
 
-  async resetPassword(email: string, password: string) {
+  async resetPassword(email: string, password: string): Promise<IUser> {
     const userFound = await this.findByEmail(email);
     if (userFound) {
       return this.usersRepo.resetPassword(email, password);
