@@ -2,14 +2,13 @@ import { Test } from '@nestjs/testing';
 import { UsersController } from '../../users.controller';
 import { UsersService } from '../../users.service';
 import { mock, instance, when, anything } from 'ts-mockito';
-import { UserEntity } from '../../user.entity';
 import { ExceptionsLoggerFilter } from '../../../../filters/exceptionsLogger.filter';
 import { Logger } from 'nestjs-pino';
+import { createMockUser } from '../../../../mock';
 
 describe('UsersController', () => {
-  // mock user Entity
-  const mockUserEntity = mock(UserEntity);
-  const mockUserEntityInstance = instance(mockUserEntity);
+  // mock user
+  const mockUser = createMockUser();
 
   // mock user service
   const mockUsersService = mock(UsersService);
@@ -17,7 +16,7 @@ describe('UsersController', () => {
   beforeEach(async () => {
     // mock user service and return mocked user entity
     when(mockUsersService.createUser(anything(), anything())).thenResolve(
-      mockUserEntityInstance,
+      mockUser,
     );
 
     await Test.createTestingModule({

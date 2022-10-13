@@ -5,6 +5,7 @@ import {
   Post,
   Put,
   UseGuards,
+  Request,
 } from '@nestjs/common';
 import { ForgetPasswordDto } from './dto/forgetPassword.dto';
 import { ResetPasswordDto } from './dto/resetPassword.dto';
@@ -15,6 +16,7 @@ import { JwtService } from '@nestjs/jwt';
 import { JwtGuard } from '../../guards/jwt.guard';
 import { UserEntity } from '../users/user.entity';
 import { CreateUserDto } from '../users/dto/createUser.dto';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller({
   version: '1',
@@ -27,7 +29,14 @@ export class AuthController {
 
   @Post('/register')
   async register(@Body() createUserDto: CreateUserDto): Promise<UserEntity> {
-    return this.authService.register(createUserDto);
+    const user = this.authService.register(createUserDto);
+    return UserEntity.fromObject(user);
+  }
+
+  @UseGuards(AuthGuard('local'))
+  @Post('/login')
+  async login(@Request() req) {
+    return UserEntity.fromObject(req.user);
   }
 
   @Post('/forget-password')

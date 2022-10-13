@@ -4,9 +4,8 @@ import { mock, instance, when, anything, verify } from 'ts-mockito';
 import { CreateUserDto } from '../../dto/createUser.dto';
 import { UsersRepo } from '../../users.repo';
 import { faker } from '@faker-js/faker';
-import { UserEntity } from '../../user.entity';
-import { IUser } from '../../types';
 import mongoose from 'mongoose';
+import { createMockUser } from '../../../../mock';
 
 describe('UsersService.createUser', () => {
   let service: UsersService;
@@ -14,17 +13,7 @@ describe('UsersService.createUser', () => {
   // mock user repo
   const mockUsersRepo = mock(UsersRepo);
 
-  const mockCreatedUser: IUser = {
-    _id: new mongoose.Types.ObjectId(faker.database.mongodbObjectId()),
-    accountId: new mongoose.Types.ObjectId(faker.database.mongodbObjectId()),
-    firstName: faker.name.firstName(),
-    lastName: faker.name.lastName(),
-    email: faker.internet.email(),
-    password: faker.random.word(),
-    archivedAt: null,
-    createdAt: faker.date.future(),
-    updatedAt: faker.date.future(),
-  };
+  const mockCreatedUser = createMockUser();
 
   beforeEach(async () => {
     // mock user service and return mocked user entity
@@ -53,7 +42,7 @@ describe('UsersService.createUser', () => {
     );
 
     expect(await service.createUser(mockCreateUserDto, mockAccountId)).toEqual(
-      await UserEntity.fromObject(mockCreatedUser),
+      mockCreatedUser,
     );
 
     verify(
