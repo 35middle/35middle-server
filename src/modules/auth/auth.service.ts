@@ -4,20 +4,19 @@ import { ResetPasswordEntity } from './entity/resetPassword.entity';
 import { ForgetPasswordEntity } from './entity/forgetPassword.entity';
 import { UsersService } from '../users/users.service';
 import { comparePassword } from '../utils/bcrypt';
-import { EncryptionService } from './encryption/encryption.service';
-import { UserEntity } from '../users/user.entity';
 import { CreateUserDto } from '../users/dto/createUser.dto';
 import { AccountsService } from '../accounts/accounts.service';
 import * as mongoose from 'mongoose';
 import { InjectConnection } from '@nestjs/mongoose';
 import { IUser } from '../users/types';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
   constructor(
     private readonly usersService: UsersService,
     private readonly accountsService: AccountsService,
-    private readonly encryptionService: EncryptionService,
+    private readonly jwtService: JwtService,
     @InjectConnection() private readonly connection: mongoose.Connection,
   ) {}
 
@@ -43,20 +42,6 @@ export class AuthService {
     }
   }
 
-  private async getForgetPasswordTokenFromUser(user: IUser): Promise<string> {
-    return this.encryptionService.encryptText(user._id.toString());
-  }
-
-  private async getUserFromForgetPasswordToken(
-    token: string,
-  ): Promise<UserEntity> {
-    const _id = await this.encryptionService.decryptText(token);
-
-    const user = this.usersService.findById(_id);
-
-    return UserEntity.fromObject(user);
-  }
-
   async validateUser(email: string, pass: string): Promise<IUser | null> {
     const user = await this.usersService.findByEmail(email);
     if (user && comparePassword(pass, user.password)) {
@@ -67,6 +52,7 @@ export class AuthService {
 
   async forgetPassword(
     forgetPasswordDto: ForgetPasswordDto,
+    host: string,
   ): Promise<ForgetPasswordEntity> {
     const foundUser = await this.usersService.findByEmail(
       forgetPasswordDto.email,
@@ -84,10 +70,11 @@ export class AuthService {
     /**
      * generate a token from found user
      */
-
-    const token = await this.getForgetPasswordTokenFromUser(foundUser);
-    // app url maybe from config or env var
-    const magicLink = `35middle-app-url/resetPassword?token=${token}`;
+    const jwtToken = await this.jwtService.signAsync({
+      _id: foundUser._id,
+      email: foundUser.email,
+    });
+    const magicLink = `${host}/resetPassword?token=${jwtToken}`;
 
     console.log(magicLink);
 

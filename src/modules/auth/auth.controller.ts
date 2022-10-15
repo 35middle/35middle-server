@@ -42,8 +42,9 @@ export class AuthController {
   @Post('/forget-password')
   async forgetPassword(
     @Body() forgetPasswordDto: ForgetPasswordDto,
+    @Headers('host') host: string,
   ): Promise<ForgetPasswordEntity> {
-    return this.authService.forgetPassword(forgetPasswordDto);
+    return this.authService.forgetPassword(forgetPasswordDto, host);
   }
 
   @Post('/issueToken')
