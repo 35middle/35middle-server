@@ -6,7 +6,6 @@ import {
   Put,
   UseGuards,
   Request,
-  Req,
 } from '@nestjs/common';
 import { ForgetPasswordDto } from './dto/forgetPassword.dto';
 import { ResetPasswordDto } from './dto/resetPassword.dto';
