@@ -1,4 +1,10 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  Logger,
+  LoggerService,
+} from '@nestjs/common';
 import { ForgetPasswordDto } from './dto/forgetPassword.dto';
 import { ResetPasswordEntity } from './entity/resetPassword.entity';
 import { ForgetPasswordEntity } from './entity/forgetPassword.entity';
@@ -10,14 +16,18 @@ import * as mongoose from 'mongoose';
 import { InjectConnection } from '@nestjs/mongoose';
 import { IUser } from '../users/types';
 import { JwtService } from '@nestjs/jwt';
+import { EmailService } from './services/email.service';
 
 @Injectable()
 export class AuthService {
+  private readonly logger = new Logger(AuthService.name);
+
   constructor(
     private readonly usersService: UsersService,
     private readonly accountsService: AccountsService,
     private readonly jwtService: JwtService,
     @InjectConnection() private readonly connection: mongoose.Connection,
+    private readonly emailService: EmailService,
   ) {}
 
   async register(createUserDto: CreateUserDto): Promise<IUser> {
@@ -74,18 +84,25 @@ export class AuthService {
       _id: foundUser._id,
       email: foundUser.email,
     });
+
     const magicLink = `${host}/resetPassword?token=${jwtToken}`;
 
-    console.log(magicLink);
-
-    /**
-     * send this magic link
-     *
-     * throw error if not success
-     */
-
-    // return ok
-    return ForgetPasswordEntity.fromObject({ success: true });
+    try {
+      await this.emailService.sendForgetPasswordLink(
+        foundUser.email,
+        magicLink,
+      );
+      /**
+       * send this magic link
+       *
+       * throw error if not success
+       */
+      // return ok
+      return ForgetPasswordEntity.fromObject({ success: true });
+    } catch (e) {
+      this.logger.error(`error sending email ${e}`);
+      return ForgetPasswordEntity.fromObject({ success: false });
+    }
   }
 
   async resetPassword(

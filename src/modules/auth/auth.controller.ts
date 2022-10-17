@@ -6,6 +6,7 @@ import {
   Put,
   UseGuards,
   Request,
+  Req,
 } from '@nestjs/common';
 import { ForgetPasswordDto } from './dto/forgetPassword.dto';
 import { ResetPasswordDto } from './dto/resetPassword.dto';
@@ -44,7 +45,10 @@ export class AuthController {
     @Body() forgetPasswordDto: ForgetPasswordDto,
     @Headers('host') host: string,
   ): Promise<ForgetPasswordEntity> {
-    return this.authService.forgetPassword(forgetPasswordDto, host);
+    return this.authService.forgetPassword(
+      forgetPasswordDto,
+      `https://${host}`,
+    );
   }
 
   @Post('/issueToken')
