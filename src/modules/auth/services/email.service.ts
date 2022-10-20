@@ -12,12 +12,15 @@ export class EmailService {
       'app.emailServiceSnsTopicArn',
     );
 
+    const snsRegion = this.configService.get<string>('app.snsRegion');
+
     const payload = {
       userEmail,
       forgetPasswordLink,
     };
 
     const sns = new SNSClient({
+      region: snsRegion,
       credentials: fromNodeProviderChain(),
     });
 

@@ -6,4 +6,5 @@ export default registerAs('app', () => ({
   port: process.env.APP_PORT,
   apiPrefix: process.env.API_PREFIX,
   emailServiceSnsTopicArn: process.env.EMAIL_SERVICE_SNS_TOPIC_ARN,
+  snsRegion: process.env.SNS_REGION,
 }));
