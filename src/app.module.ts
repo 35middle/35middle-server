@@ -3,6 +3,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import * as Joi from '@hapi/joi';
 import appConfig from './config/app.config';
 import databaseConfig from './config/database.config';
+import awsConfig from './config/aws.config';
 import { LoggerModule, Logger } from 'nestjs-pino';
 import { MongooseModule } from '@nestjs/mongoose';
 import HealthModule from './modules/health/health.module';
@@ -24,7 +25,7 @@ import { AuthModule } from './modules/auth/auth.module';
     }),
     ConfigModule.forRoot({
       isGlobal: true,
-      load: [appConfig, databaseConfig],
+      load: [appConfig, databaseConfig, awsConfig],
       validationSchema: Joi.object({
         APP_PORT: Joi.number(),
         MONGO_USERNAME: Joi.string().required(),

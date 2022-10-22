@@ -1,6 +1,7 @@
 NODE_ENV=development
 APP_PORT=3000
 APP_NAME="NestJS API"
+APP_BASE_URL="http://localhost:3000"
 API_PREFIX=api
 
 // check out in MongoDB Atlas for local development
@@ -8,3 +9,9 @@ MONGO_USERNAME=
 MONGO_PASSWORD=
 MONGO_DATABASE=
 MONGO_HOST=
+
+// AWS
+EMAIL_SERVICE_SNS_TOPIC_ARN="arn:aws:sns:ap-southeast-2:923144025182:35middle-forget-password"
+SNS_REGION="ap-southeast-2"
+AWS_ACCESS_KEY_ID=
+AWS_SECRET_ACCESS_KEY=
