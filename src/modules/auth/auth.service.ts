@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { ForgetPasswordDto } from './dto/forgetPassword.dto';
 import { ResetPasswordEntity } from './entity/resetPassword.entity';
 import { ForgetPasswordEntity } from './entity/forgetPassword.entity';
@@ -11,6 +11,7 @@ import { InjectConnection } from '@nestjs/mongoose';
 import { IUser } from '../users/types';
 import { JwtService } from '@nestjs/jwt';
 import { EmailService } from './services/email.service';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService {
@@ -20,8 +21,9 @@ export class AuthService {
     private readonly usersService: UsersService,
     private readonly accountsService: AccountsService,
     private readonly jwtService: JwtService,
-    @InjectConnection() private readonly connection: mongoose.Connection,
     private readonly emailService: EmailService,
+    private readonly configService: ConfigService,
+    @InjectConnection() private readonly connection: mongoose.Connection,
   ) {}
 
   async register(createUserDto: CreateUserDto): Promise<IUser> {
@@ -56,47 +58,34 @@ export class AuthService {
 
   async forgetPassword(
     forgetPasswordDto: ForgetPasswordDto,
-    host: string,
   ): Promise<ForgetPasswordEntity> {
     const foundUser = await this.usersService.findByEmail(
       forgetPasswordDto.email,
     );
 
     if (!foundUser) {
-      throw new HttpException(
-        'User not found',
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
+      this.logger.error(`user with ${forgetPasswordDto.email} is not found`);
+      return;
     }
 
-    // if user exist
-
-    /**
-     * generate a token from found user
-     */
     const jwtToken = await this.jwtService.signAsync({
       _id: foundUser._id,
       email: foundUser.email,
     });
 
-    const magicLink = `${host}/resetPassword?token=${jwtToken}`;
+    const magicLink = `${this.configService.get(
+      'app.appBaseUrl',
+    )}/resetPassword?token=${jwtToken}`;
 
     try {
       await this.emailService.sendForgetPasswordLink(
         foundUser.email,
         magicLink,
       );
-      /**
-       * send this magic link
-       *
-       * throw error if not success
-       */
-      // return ok
-      return ForgetPasswordEntity.fromObject({ success: true });
     } catch (e) {
       this.logger.error(`error sending email ${e}`);
-      return ForgetPasswordEntity.fromObject({ success: false });
     }
+    return ForgetPasswordEntity.fromObject({ success: true });
   }
 
   async resetPassword(
