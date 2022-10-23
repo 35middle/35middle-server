@@ -4,8 +4,6 @@ import { ResetPasswordEntity } from './entity/resetPassword.entity';
 import { ForgetPasswordEntity } from './entity/forgetPassword.entity';
 import { UsersService } from '../users/users.service';
 import { comparePassword } from '../utils/bcrypt';
-import { EncryptionService } from './encryption/encryption.service';
-import { UserEntity } from '../users/user.entity';
 import { CreateUserDto } from '../users/dto/createUser.dto';
 import { AccountsService } from '../accounts/accounts.service';
 import * as mongoose from 'mongoose';
@@ -22,7 +20,6 @@ export class AuthService {
   constructor(
     private readonly usersService: UsersService,
     private readonly accountsService: AccountsService,
-    private readonly encryptionService: EncryptionService,
     private readonly jwtService: JwtService,
     private readonly emailService: EmailService,
     private readonly configService: ConfigService,
