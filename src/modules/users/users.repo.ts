@@ -46,11 +46,7 @@ export class UsersRepo {
 
   async resetPassword(email: string, password: string): Promise<IUser> {
     return this.userModel
-      .findOneAndUpdate(
-        { email },
-        { password: await encodePassword(password) },
-        { new: true },
-      )
+      .findOneAndUpdate({ email }, { password }, { new: true })
       .lean();
   }
 }
