@@ -1,14 +1,30 @@
 FROM node:16.16.0
 
-RUN npm i -g @nestjs/cli typescript ts-node
+ARG NODE_ENV
+ARG APP_PORT
+ARG APP_NAME
+ARG API_PREFIX
+ARG MONGO_USERNAME
+ARG MONGO_PASSWORD
+ARG MONGO_DATABASE
+ARG MONGO_HOST
 
-COPY package*.json /tmp/app/
-RUN cd /tmp/app && npm install
+ENV NODE_ENV=$NODE_ENV
+ENV APP_PORT=$APP_PORT
+ENV APP_NAME=$APP_NAME
+ENV API_PREFIX=$API_PREFIX
+ENV MONGO_USERNAME=$MONGO_USERNAME
+ENV MONGO_PASSWORD=$MONGO_PASSWORD
+ENV MONGO_DATABASE=$MONGO_DATABASE
+ENV MONGO_HOST=$MONGO_HOST
 
-COPY . /usr/src/app
-RUN cp -a /tmp/app/node_modules /usr/src/app
-
+RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
-RUN rm -rf .env && cp env-example .env
+COPY package.json .
+COPY yarn.lock .
+RUN yarn install
 
-CMD yarn run start:dev
+COPY . .
+# RUN yarn build
+EXPOSE 3001
+CMD [ "yarn", "start:dev" ]
