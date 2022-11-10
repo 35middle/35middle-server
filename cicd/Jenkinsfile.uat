@@ -24,7 +24,7 @@ pipeline {
     stages {
         stage('install aws cli') {
             steps {
-                echo "install aws cli ."
+                echo "install aws cli"
                 sh 'apt update'
                 sh 'apt install sudo'
                 // sh 'sudo apt install zip'
