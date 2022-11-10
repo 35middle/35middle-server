@@ -83,7 +83,7 @@ export class AuthService {
 
     const magicLink = `${this.configService.get(
       'app.appBaseUrl',
-    )}/reset-password?token=${jwtToken}`;
+    )}/resetPassword?token=${jwtToken}`;
 
     try {
       await this.emailService.sendForgetPasswordLink(
