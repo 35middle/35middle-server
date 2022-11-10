@@ -12,6 +12,6 @@ MONGO_HOST=
 
 // AWS
 EMAIL_SERVICE_SNS_TOPIC_ARN="arn:aws:sns:ap-southeast-2:923144025182:35middle-forget-password"
-SNS_REGION="ap-southeast-2"
+AWS_REGION="ap-southeast-2"
 AWS_ACCESS_KEY_ID=
 AWS_SECRET_ACCESS_KEY=
