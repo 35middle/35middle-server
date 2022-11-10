@@ -51,7 +51,8 @@ pipeline {
                     sh 'docker build -t 35middle-backend-image --build-arg NODE_ENV=${NODE_ENV} --build-arg APP_PORT=${APP_PORT} --build-arg APP_NAME=${APP_NAME} --build-arg API_PREFIX=${API_PREFIX} --build-arg MONGO_USERNAME=${MONGO_USERNAME} --build-arg MONGO_PASSWORD=${MONGO_PASSWORD} --build-arg MONGO_DATABASE=${MONGO_DATABASE} --build-arg MONGO_HOST=${MONGO_HOST} .'
                     sh 'docker tag 35middle-backend-image:latest $AWS_ECR_IMAGE'
                     sh 'docker push $AWS_ECR_IMAGE'
-                    sh 'aws ecs update-service --cluster ${AWS_ECS_CLUSTER} --service ${AWS_ECS_SERVICE} --force-new-deployment'
+                    // sh 'aws ecs update-service --cluster ${AWS_ECS_CLUSTER} --service ${AWS_ECS_SERVICE} --force-new-deployment'
+                    sh 'aws ecs update-service --cluster "35middle-cluster-uat" --service "35middle-service-uat" --force-new-deployment'
                 }
             }
         }
