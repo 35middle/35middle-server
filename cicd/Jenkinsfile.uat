@@ -19,6 +19,7 @@ pipeline {
         AWS_ECR_IMAGE = '473488110151.dkr.ecr.ap-southeast-2.amazonaws.com/35middle-backend-image-uat:latest'
         // AWS_ECS_SERVICE = '35middle-service-uat'
         // AWS_ECS_CLUSTER = '35middle-cluster-uat'
+        AWS_ECR_IMAGE_EC2 = '473488110151.dkr.ecr.ap-southeast-2.amazonaws.com/middle35-uat-backend-image:latest'
         AWS_ECS_SERVICE_EC2 = 'middle-uat'
         AWS_ECS_CLUSTER_EC2 = 'middle-uat'
     }
