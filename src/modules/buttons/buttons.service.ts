@@ -38,14 +38,17 @@ export class ButtonsService {
     }
   }
 
-  async editButton(editButtonDto: EditButtonDto): Promise<IButton> {
+  async saveButton(
+    editButtonDto: EditButtonDto,
+    buttonId: mongoose.Types.ObjectId,
+  ): Promise<IButton> {
     const session = await this.connection.startSession();
     session.startTransaction();
 
     try {
-      const updatedButton = await this.buttonsRepo.editButton(
+      const updatedButton = await this.buttonsRepo.saveButton(
         editButtonDto,
-        'buttonId',
+        buttonId,
         session,
       );
       await session.commitTransaction();
@@ -56,5 +59,10 @@ export class ButtonsService {
     } finally {
       await session.endSession();
     }
+  }
+
+  async getButton(buttonId: mongoose.Types.ObjectId): Promise<IButton> {
+    const button = this.buttonsRepo.findById(buttonId);
+    return button;
   }
 }
