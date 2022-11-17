@@ -25,7 +25,7 @@ export class ButtonsRepo {
     return button.save({ session });
   }
 
-  async editButton(
+  async saveButton(
     editButtonDto: EditButtonDto,
     buttonId: mongoose.Types.ObjectId,
     session?: mongoose.ClientSession,
@@ -36,7 +36,7 @@ export class ButtonsRepo {
     return button.save({ session });
   }
 
-  async findById(id: string): Promise<IButton> {
+  async findById(id: mongoose.Types.ObjectId): Promise<IButton> {
     return this.buttonModel.findById(id).lean();
   }
 }
