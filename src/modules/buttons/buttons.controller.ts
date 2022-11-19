@@ -3,22 +3,23 @@ import { ButtonsService } from './buttons.service';
 import { ButtonsEntity } from './buttons.entity';
 import mongoose from 'mongoose';
 import { EditButtonDto } from './dto/editButton.dto';
+import { CreateButtonDto } from './dto/createButton.dto';
 
 @Controller({ version: '1', path: 'newButton' })
 export class ButtonsController {
   constructor(private readonly buttonService: ButtonsService) {}
 
-  // @Post('/:videoId')
-  // async newButton(
-  //   @Body() createButtonDto: CreateButtonDto,
-  //   @Param('videoId') videoId: mongoose.Types.ObjectId,
-  // ): Promise<ButtonsEntity> {
-  //   const button = this.buttonService.newButton(createButtonDto, videoId);
-  //   return ButtonsEntity.fromObject(button);
-  // }
+  @Post('/:videoId')
+  async newButton(
+    @Body() createButtonDto: CreateButtonDto,
+    @Param('videoId') videoId: mongoose.Types.ObjectId,
+  ): Promise<ButtonsEntity> {
+    const button = this.buttonService.newButton(createButtonDto, videoId);
+    return ButtonsEntity.fromObject(button);
+  }
 
   @Get('/:buttonId')
-  async showButton(
+  async readButton(
     @Param('buttonId') buttonId: mongoose.Types.ObjectId,
   ): Promise<ButtonsEntity> {
     const button = this.buttonService.getButton(buttonId);
