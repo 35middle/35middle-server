@@ -12,6 +12,7 @@ import { IUser } from '../users/types';
 import { JwtService } from '@nestjs/jwt';
 import { EmailService } from './services/email.service';
 import { ConfigService } from '@nestjs/config';
+import { UserEntity } from '../users/user.entity';
 
 @Injectable()
 export class AuthService {
@@ -102,5 +103,10 @@ export class AuthService {
   ): Promise<ResetPasswordEntity> {
     await this.usersService.resetPassword(email, password);
     return ResetPasswordEntity.fromObject({ success: true });
+  }
+
+  async getMe(id: string): Promise<UserEntity> {
+    const user = await this.usersService.findById(id);
+    return UserEntity.fromObject(user || null);
   }
 }

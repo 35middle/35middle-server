@@ -1,20 +1,20 @@
 import { plainToClass, Transform, Expose } from 'class-transformer';
 
-export class UserEntity {
+export class ProjectEntity {
   @Expose()
   @Transform(({ obj }) => {
     return obj._id.toString();
   })
-  _id: string;
+  id: string;
 
   @Expose()
-  email: string;
+  name: string;
 
   @Expose()
-  lastName: string;
+  brandColor: string;
 
   @Expose()
-  firstName: string;
+  logoPath: string;
 
   @Expose()
   @Transform(({ obj }) => {
@@ -22,8 +22,8 @@ export class UserEntity {
   })
   accountId: string;
 
-  static async fromObject(obj: unknown): Promise<UserEntity> {
+  static async fromObject(obj: unknown): Promise<ProjectEntity> {
     if (!obj) return null;
-    return plainToClass(UserEntity, obj, { excludeExtraneousValues: true });
+    return plainToClass(ProjectEntity, obj, { excludeExtraneousValues: true });
   }
 }

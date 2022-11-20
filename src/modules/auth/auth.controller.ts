@@ -7,6 +7,7 @@ import {
   UseGuards,
   Request,
   Res,
+  Get,
 } from '@nestjs/common';
 import { ForgetPasswordDto } from './dto/forgetPassword.dto';
 import { ResetPasswordDto } from './dto/resetPassword.dto';
@@ -79,6 +80,23 @@ export class AuthController {
         resetPasswordDto.password,
         user.email,
       );
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  @Get('/me')
+  @UseGuards(JwtGuard)
+  async getMe(
+    @Headers('authorization') bearerToken: string,
+  ): Promise<UserEntity> {
+    const jwt = bearerToken.replace('Bearer ', '');
+    try {
+      const { sub } = this.jwtService.decode(jwt, { json: true }) as {
+        email: string;
+        sub: string;
+      };
+      return this.authService.getMe(sub);
     } catch (e) {
       throw e;
     }
