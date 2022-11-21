@@ -12,6 +12,9 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './modules/auth/auth.module';
 import { ProjectsModule } from './modules/projects/projects.module';
+import { JwtModule } from '@nestjs/jwt';
+import { jwtConstants } from './modules/auth/constants';
+import { PassportModule } from '@nestjs/passport';
 
 @Module({
   imports: [
@@ -57,8 +60,17 @@ import { ProjectsModule } from './modules/projects/projects.module';
     UsersModule,
     AuthModule,
     ProjectsModule,
+    {
+      ...JwtModule.register({
+        secret: jwtConstants.secret,
+        signOptions: { expiresIn: '604800s' },
+      }),
+      global: true,
+    },
+    PassportModule,
   ],
   controllers: [AppController],
   providers: [AppService],
+  exports: [JwtModule, PassportModule],
 })
 export class AppModule {}

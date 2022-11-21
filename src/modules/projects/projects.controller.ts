@@ -10,6 +10,7 @@ import {
   Param,
   Put,
   Logger,
+  UseGuards,
 } from '@nestjs/common';
 import { ProjectsService } from './projects.service';
 import { ProjectEntity } from './project.entity';
@@ -19,6 +20,7 @@ import { Express, Response } from 'express';
 import * as path from 'path';
 import { uuid } from 'uuidv4';
 import { createReadStream } from 'fs';
+import { JwtGuard } from '../../guards/jwt.guard';
 
 @Controller({
   version: '1',
@@ -29,6 +31,7 @@ export class ProjectsController {
   constructor(private readonly projectsService: ProjectsService) {}
 
   @Get()
+  @UseGuards(JwtGuard)
   findAllByAccountId(@Query('accountId') accountId): Promise<ProjectEntity[]> {
     return this.projectsService.findAllByAccountId(accountId);
   }
