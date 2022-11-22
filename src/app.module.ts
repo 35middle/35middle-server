@@ -15,6 +15,7 @@ import { ProjectsModule } from './modules/projects/projects.module';
 import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from './modules/auth/constants';
 import { PassportModule } from '@nestjs/passport';
+import { MulterModule } from '@nestjs/platform-express';
 
 @Module({
   imports: [
@@ -60,6 +61,11 @@ import { PassportModule } from '@nestjs/passport';
     UsersModule,
     AuthModule,
     ProjectsModule,
+    MulterModule.registerAsync({
+      useFactory: () => ({
+        dest: '/upload',
+      }),
+    }),
     {
       ...JwtModule.register({
         secret: jwtConstants.secret,
