@@ -5,11 +5,11 @@ import mongoose from 'mongoose';
 import { EditButtonDto } from './dto/editButton.dto';
 import { CreateButtonDto } from './dto/createButton.dto';
 
-@Controller({ version: '1', path: 'newButton' })
+@Controller({ version: '1', path: 'buttons' })
 export class ButtonsController {
   constructor(private readonly buttonService: ButtonsService) {}
 
-  @Post('/:videoId')
+  @Post(':videoId')
   async newButton(
     @Body() createButtonDto: CreateButtonDto,
     @Param('videoId') videoId: mongoose.Types.ObjectId,
@@ -18,7 +18,7 @@ export class ButtonsController {
     return ButtonsEntity.fromObject(button);
   }
 
-  @Get('/:buttonId')
+  @Get(':buttonId')
   async readButton(
     @Param('buttonId') buttonId: mongoose.Types.ObjectId,
   ): Promise<ButtonsEntity> {
@@ -26,7 +26,7 @@ export class ButtonsController {
     return ButtonsEntity.fromObject(button);
   }
 
-  @Put('/:buttonId')
+  @Put(':buttonId')
   async saveButton(
     @Body() editButtonDto: EditButtonDto,
     @Param() buttonId: mongoose.Types.ObjectId,
