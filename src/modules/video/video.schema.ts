@@ -8,9 +8,6 @@ export class Video {
   @Prop()
   videoId: mongoose.Types.ObjectId;
 
-  // @Prop()
-  // videoId: mongoose.Types.ObjectId;
-
   @Prop()
   videoTitle: string;
 

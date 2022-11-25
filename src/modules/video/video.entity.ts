@@ -5,17 +5,19 @@ export class VideoEntity {
   @Transform(({ obj }) => {
     return obj._id.toString();
   })
-  _id: string;
+  id: string;
 
-  @Expose()
-  @Transform(({ obj }) => {
-    return obj.videoId.toString();
-  })
   @Expose()
   videoTitle: string;
 
   @Expose()
   videoDescription: string;
+
+  @Expose()
+  @Transform(({ obj }) => {
+    return obj.accountId.toString();
+  })
+  accountId: string;
 
   static async fromObject(obj: unknown): Promise<VideoEntity> {
     if (!obj) return null;

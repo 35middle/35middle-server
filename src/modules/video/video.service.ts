@@ -4,7 +4,7 @@ import * as mongoose from 'mongoose';
 import { CreateVideoDto } from './dto/createVideo.dto';
 import { IVideo } from './types/index';
 import { VideosRepo } from './video.repo';
-import { EditVideoDto } from './dto/editVideo.dto';
+import { EditVideoDto } from './dto/updateVideo.dto';
 
 @Injectable()
 export class VideoService {
@@ -15,7 +15,7 @@ export class VideoService {
     @InjectConnection() private readonly connection: mongoose.Connection,
   ) {}
 
-  async newVideo(
+  async createVideo(
     createVideoDto: CreateVideoDto,
     videoId: mongoose.Types.ObjectId,
   ): Promise<IVideo> {
@@ -26,6 +26,8 @@ export class VideoService {
       const newVideo = await this.videoRepo.createVideo(
         createVideoDto,
         videoId,
+        videoTitle,
+        videoDescription,
         session,
       );
       await session.commitTransaction();
@@ -49,6 +51,8 @@ export class VideoService {
       const updatedVideo = await this.videoRepo.saveVideo(
         editVideoDto,
         videoId,
+        videoTitle,
+        videoDescription,
         session,
       );
       await session.commitTransaction();
