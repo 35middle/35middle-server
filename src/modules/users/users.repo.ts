@@ -32,6 +32,24 @@ export class UsersRepo {
     return user.save({ session });
   }
 
+  async updateUser(
+    userId: mongoose.Types.ObjectId,
+    user: Partial<IUser>,
+  ): Promise<IUser> {
+    return this.userModel.findByIdAndUpdate(userId, user).lean();
+  }
+
+  async updatePassword(
+    userId: mongoose.Types.ObjectId,
+    password: string,
+  ): Promise<IUser> {
+    return this.userModel
+      .findByIdAndUpdate(userId, {
+        password: await encodePassword(password),
+      })
+      .lean();
+  }
+
   async findByEmail(email: string): Promise<IUser> {
     return this.userModel
       .findOne({
