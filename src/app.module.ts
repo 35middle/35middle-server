@@ -16,6 +16,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from './modules/auth/constants';
 import { PassportModule } from '@nestjs/passport';
 import { MulterModule } from '@nestjs/platform-express';
+import { VideoModule } from './modules/video/video.module';
 
 @Module({
   imports: [
@@ -61,6 +62,7 @@ import { MulterModule } from '@nestjs/platform-express';
     UsersModule,
     AuthModule,
     ProjectsModule,
+    VideoModule,
     MulterModule.registerAsync({
       useFactory: () => ({
         dest: '/upload',

@@ -1,11 +1,30 @@
 import { VideoEntity } from './video.entity';
-import mongoose from 'mongoose';
-import { Controller, Get, Param } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Delete,
+  Query,
+  UseGuards,
+  Param,
+} from '@nestjs/common';
 import { VideoService } from './video.service';
+import { JwtGuard } from '../../guards/jwt.guard';
 
-@Controller({ version: '1', path: 'video' })
+@Controller({ version: '1', path: 'videos' })
 export class VideoController {
   constructor(private readonly videoService: VideoService) {}
+
+  @Get()
+  @UseGuards(JwtGuard)
+  findAllByProjectId(@Query('projectId') projectId): Promise<VideoEntity[]> {
+    return this.videoService.findAllByProjectId(projectId);
+  }
+
+  @Delete(':videoId')
+  @UseGuards(JwtGuard)
+  archiveVideoById(@Param('videoId') videoId): Promise<VideoEntity> {
+    return this.videoService.archiveVideoById(videoId);
+  }
 
   // @Post('/:upload')
   // async newVideo(
@@ -47,13 +66,13 @@ export class VideoController {
   //   );
   // }
 
-  @Get('/:videoId')
-  async readVideo(
-    @Param('videoId') videoId: mongoose.Types.ObjectId,
-  ): Promise<VideoEntity> {
-    const video = this.videoService.getVideo(videoId);
-    return VideoEntity.fromObject(video);
-  }
+  // @Get('/:videoId')
+  // async readVideo(
+  //   @Param('videoId') videoId: mongoose.Types.ObjectId,
+  // ): Promise<VideoEntity> {
+  //   const video = this.videoService.getVideo(videoId);
+  //   return VideoEntity.fromObject(video);
+  // }
 
   // @Put('/:videoId')
   // async saveVideo(

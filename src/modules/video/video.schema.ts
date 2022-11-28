@@ -1,18 +1,25 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { Document } from 'mongoose';
 
-export type VideoDocument = Video & Document;
+export type VideoDocument = Video &
+  Document & { updatedAt: Date; createdAt: Date };
 
 @Schema()
 export class Video {
   @Prop()
-  videoId: mongoose.Types.ObjectId;
+  name: string;
 
   @Prop()
-  videoTitle: string;
+  thumbnail: string;
 
   @Prop()
-  videoDescription: string;
+  videoUrl: string;
+
+  @Prop()
+  projectId: mongoose.Types.ObjectId;
+
+  @Prop()
+  archivedAt: Date | null;
 }
 
 export const VideoSchema = SchemaFactory.createForClass(Video);

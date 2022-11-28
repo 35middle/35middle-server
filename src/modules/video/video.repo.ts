@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { Video, VideoDocument } from './video.schema';
 import mongoose, { Model } from 'mongoose';
-import { IVideo } from './types/index';
+import { IVideo } from './types';
 import { InjectModel } from '@nestjs/mongoose';
 
 @Injectable()
@@ -30,19 +30,10 @@ export class VideosRepo {
   // }
 
   async updateVideo(
-    accountId: mongoose.Types.ObjectId,
     videoId: mongoose.Types.ObjectId,
-    videoTitle: string,
-    videoDescription: string,
-    archivedAt: null,
+    update: Partial<IVideo>,
   ): Promise<IVideo> {
-    return this.videoModel.findByIdAndUpdate(videoId, {
-      accountId,
-      videoId,
-      videoTitle,
-      videoDescription,
-      archivedAt,
-    });
+    return this.videoModel.findByIdAndUpdate(videoId, update);
   }
 
   // async saveVideo(
@@ -60,10 +51,11 @@ export class VideosRepo {
     return this.videoModel.findById(id).lean();
   }
 
-  async findByAccountId(accountId: mongoose.Types.ObjectId): Promise<IVideo[]> {
+  async findByProjectId(projectId: mongoose.Types.ObjectId): Promise<IVideo[]> {
     return this.videoModel
       .find({
-        accountId,
+        projectId,
+        archivedAt: { $eq: null },
       })
       .lean();
   }

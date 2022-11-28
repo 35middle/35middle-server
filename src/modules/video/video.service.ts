@@ -1,18 +1,29 @@
-import { Injectable, Logger } from '@nestjs/common';
-import { InjectConnection } from '@nestjs/mongoose';
+import { Injectable } from '@nestjs/common';
 import * as mongoose from 'mongoose';
-import { IVideo } from './types/index';
 import { VideosRepo } from './video.repo';
+import { VideoEntity } from './video.entity';
 
 @Injectable()
 export class VideoService {
-  private readonly logger = new Logger(VideoService.name);
+  constructor(private readonly videoRepo: VideosRepo) {}
 
-  constructor(
-    private readonly videoRepo: VideosRepo,
-    @InjectConnection() private readonly connection: mongoose.Connection,
-  ) {}
+  async findAllByProjectId(projectId: string): Promise<VideoEntity[]> {
+    const videos = await this.videoRepo.findByProjectId(
+      new mongoose.Types.ObjectId(projectId),
+    );
+    return Promise.all(videos.map((video) => VideoEntity.fromObject(video)));
+  }
 
+  async archiveVideoById(videoId: string): Promise<VideoEntity> {
+    const archivedVideo = await this.videoRepo.updateVideo(
+      new mongoose.Types.ObjectId(videoId),
+      {
+        archivedAt: new Date(),
+      },
+    );
+
+    return VideoEntity.fromObject(archivedVideo);
+  }
   // async createVideo(
   //   createVideoDto: CreateVideoDto,
   //   videoId: mongoose.Types.ObjectId,
@@ -62,9 +73,4 @@ export class VideoService {
   //     await session.endSession();
   //   }
   // }
-
-  async getVideo(videoId: mongoose.Types.ObjectId): Promise<IVideo> {
-    const video = this.videoRepo.findById(videoId);
-    return video;
-  }
 }
