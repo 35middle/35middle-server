@@ -1,7 +1,8 @@
 import { VideoEntity } from './video.entity';
 import mongoose from 'mongoose';
-import { Controller, Get, Param } from '@nestjs/common';
+import { Body, Controller, Get, Param, Put, UseGuards } from '@nestjs/common';
 import { VideoService } from './video.service';
+import { EditVideoDto } from './dto/editVideo.dto';
 
 @Controller({ version: '1', path: 'video' })
 export class VideoController {
@@ -55,12 +56,13 @@ export class VideoController {
     return VideoEntity.fromObject(video);
   }
 
-  // @Put('/:videoId')
-  // async saveVideo(
-  //   @Body() editVideoDto: EditVideoDto,
-  //   @Param() videoId: mongoose.Types.ObjectId,
-  // ): Promise<VideoEntity> {
-  //   const video = this.videoService.saveVideo(editVideoDto, videoId);
-  //   return VideoEntity.fromObject(video);
-  // }
+  @Put('/:videoId')
+  async saveVideo(
+    @Body() editVideoDto: EditVideoDto,
+    @Param() videoId: mongoose.Types.ObjectId,
+  ): Promise<VideoEntity> {
+    const accountId = new mongoose.Types.ObjectId('accountid'); // accountId should come from login session
+    const video = this.videoService.saveVideo(accountId, videoId, editVideoDto);
+    return VideoEntity.fromObject(video);
+  }
 }

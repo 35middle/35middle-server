@@ -1,6 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectConnection } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
+import { EditVideoDto } from './dto/editVideo.dto';
 import { IVideo } from './types/index';
 import { VideosRepo } from './video.repo';
 
@@ -38,30 +39,31 @@ export class VideoService {
   //   }
   // }
 
-  // async saveVideo(
-  //   editVideoDto: EditVideoDto,
-  //   videoId: mongoose.Types.ObjectId,
-  // ): Promise<IVideo> {
-  //   const session = await this.connection.startSession();
-  //   session.startTransaction();
+  async saveVideo(
+    accountId: mongoose.Types.ObjectId,
+    videoId: mongoose.Types.ObjectId,
+    editVideoDto: EditVideoDto,
+  ): Promise<IVideo> {
+    const session = await this.connection.startSession();
+    session.startTransaction();
 
-  //   try {
-  //     const updatedVideo = await this.videoRepo.saveVideo(
-  //       editVideoDto,
-  //       videoId,
-  //       videoTitle,
-  //       videoDescription,
-  //       session,
-  //     );
-  //     await session.commitTransaction();
-  //     return updatedVideo;
-  //   } catch (e) {
-  //     await session.abortTransaction();
-  //     throw e;
-  //   } finally {
-  //     await session.endSession();
-  //   }
-  // }
+    try {
+      const updatedVideo = await this.videoRepo.updateVideo(
+        accountId,
+        videoId,
+        editVideoDto.title,
+        editVideoDto.description,
+        null,
+      );
+      await session.commitTransaction();
+      return updatedVideo;
+    } catch (e) {
+      await session.abortTransaction();
+      throw e;
+    } finally {
+      await session.endSession();
+    }
+  }
 
   async getVideo(videoId: mongoose.Types.ObjectId): Promise<IVideo> {
     const video = this.videoRepo.findById(videoId);
