@@ -18,7 +18,10 @@ export class UsersController {
   }
 
   @Put(':id')
-  update(@Param() { id }: MongoIdParams, @Body() updateUserDto: UpdateUserDto) {
+  async update(
+    @Param() { id }: MongoIdParams,
+    @Body() updateUserDto: UpdateUserDto,
+  ) {
     return this.usersService.updateUser(
       new mongoose.Types.ObjectId(id),
       updateUserDto,
@@ -26,7 +29,7 @@ export class UsersController {
   }
 
   @Post(':id/updatePassword')
-  updatePassword(
+  async updatePassword(
     @Param() { id }: MongoIdParams,
     @Body() updatePasswordDto: UpdatePasswordDto,
   ) {

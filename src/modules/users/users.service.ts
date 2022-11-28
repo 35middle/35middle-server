@@ -6,6 +6,7 @@ import { IUser } from './types';
 import { UpdateUserDto } from './dto/updateUser.dto';
 import { UpdatePasswordDto } from './dto/updatePassword.dto';
 import { PasswordNotMatchException } from './exceptions/passwordNotMatch.exception';
+import { UserEntity } from './user.entity';
 
 @Injectable()
 export class UsersService {
@@ -19,23 +20,27 @@ export class UsersService {
     return this.usersRepo.createUser(createUserDto, accountId, session);
   }
 
-  async updateUser(
-    id: mongoose.Types.ObjectId,
-    updateUserDto: UpdateUserDto,
-  ): Promise<IUser> {
-    return this.usersRepo.updateUser(id, {
+  async updateUser(id: mongoose.Types.ObjectId, updateUserDto: UpdateUserDto) {
+    const updatedUser = await this.usersRepo.updateUser(id, {
       ...updateUserDto,
     });
+
+    return UserEntity.fromObject(updatedUser);
   }
 
   async updatePassword(
     id: mongoose.Types.ObjectId,
     updatePasswordDto: UpdatePasswordDto,
-  ): Promise<IUser> {
+  ) {
     if (updatePasswordDto.password !== updatePasswordDto.confirmPassword) {
       throw new PasswordNotMatchException();
     }
-    return this.usersRepo.updatePassword(id, updatePasswordDto.password);
+
+    const updatedUser = await this.usersRepo.updatePassword(
+      id,
+      updatePasswordDto.password,
+    );
+    return UserEntity.fromObject(updatedUser);
   }
 
   async findByEmail(email: string): Promise<IUser> {
