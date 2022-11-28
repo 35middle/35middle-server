@@ -61,8 +61,7 @@ export class VideoController {
     @Body() editVideoDto: EditVideoDto,
     @Param() videoId: mongoose.Types.ObjectId,
   ): Promise<VideoEntity> {
-    const accountId = new mongoose.Types.ObjectId('accountid'); // accountId should come from login session
-    const video = this.videoService.saveVideo(accountId, videoId, editVideoDto);
+    const video = this.videoService.updateVideo(videoId, editVideoDto);
     return VideoEntity.fromObject(video);
   }
 }

@@ -39,30 +39,15 @@ export class VideoService {
   //   }
   // }
 
-  async saveVideo(
-    accountId: mongoose.Types.ObjectId,
+  async updateVideo(
     videoId: mongoose.Types.ObjectId,
     editVideoDto: EditVideoDto,
   ): Promise<IVideo> {
-    const session = await this.connection.startSession();
-    session.startTransaction();
-
-    try {
-      const updatedVideo = await this.videoRepo.updateVideo(
-        accountId,
-        videoId,
-        editVideoDto.title,
-        editVideoDto.description,
-        null,
-      );
-      await session.commitTransaction();
-      return updatedVideo;
-    } catch (e) {
-      await session.abortTransaction();
-      throw e;
-    } finally {
-      await session.endSession();
-    }
+    return this.videoRepo.updateVideo(
+      videoId,
+      editVideoDto.title,
+      editVideoDto.description,
+    );
   }
 
   async getVideo(videoId: mongoose.Types.ObjectId): Promise<IVideo> {

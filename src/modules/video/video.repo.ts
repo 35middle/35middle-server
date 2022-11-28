@@ -30,19 +30,16 @@ export class VideosRepo {
   // }
 
   async updateVideo(
-    accountId: mongoose.Types.ObjectId,
     videoId: mongoose.Types.ObjectId,
     videoTitle: string,
     videoDescription: string,
-    archivedAt: null,
   ): Promise<IVideo> {
-    return this.videoModel.findByIdAndUpdate(videoId, {
-      accountId,
-      videoId,
-      videoTitle,
-      videoDescription,
-      archivedAt,
-    });
+    return this.videoModel
+      .findByIdAndUpdate(videoId, {
+        videoTitle,
+        videoDescription,
+      })
+      .lean();
   }
 
   // async saveVideo(
