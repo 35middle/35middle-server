@@ -13,4 +13,4 @@ import { VideosRepo } from './video.repo';
   providers: [VideoService, VideosRepo],
   exports: [VideoService],
 })
-export class VideoModule { }
+export class VideoModule {}
