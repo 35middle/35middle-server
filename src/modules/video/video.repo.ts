@@ -10,24 +10,29 @@ export class VideosRepo {
     @InjectModel(Video.name) private videoModel: Model<VideoDocument>,
   ) {}
 
-  // async createVideo(
-  //   createVideoDto: CreateVideoDto,
-  //   accountId: mongoose.Types.ObjectId,
-  //   videoId: mongoose.Types.ObjectId,
-  //   videoTitle: string,
-  //   videoDescription: string,
-  //   session?: mongoose.ClientSession,
-  // ): Promise<IVideo> {
-  //   const video = new this.videoModel({
-  //     ...createVideoDto,
-  //     accountId,
-  //     videoId,
-  //     videoTitle,
-  //     videoDescription,
-  //   });
-
-  //   return video.save();
-  // }
+  async createVideo({
+    name,
+    videoUrl,
+    preview,
+    thumbnail,
+    projectId,
+  }: {
+    name: string;
+    projectId: mongoose.Types.ObjectId;
+    videoUrl: string;
+    thumbnail: string;
+    preview: string;
+  }): Promise<IVideo> {
+    const video = new this.videoModel({
+      name,
+      videoUrl,
+      preview,
+      thumbnail,
+      projectId,
+      archivedAt: null,
+    });
+    return video.save();
+  }
 
   async updateVideo(
     videoId: mongoose.Types.ObjectId,
@@ -35,17 +40,6 @@ export class VideosRepo {
   ): Promise<IVideo> {
     return this.videoModel.findByIdAndUpdate(videoId, update);
   }
-
-  // async saveVideo(
-  //   editVideoDto: EditVideoDto,
-  //   videoId: mongoose.Types.ObjectId,
-  //   // session?: mongoose.ClientSession,
-  // ): Promise<IVideo> {
-  //   const video = await this.videoModel.findById(videoId);
-  //   Object.assign(video, editVideoDto);
-
-  //   return video.save();
-  // }
 
   async findById(id: mongoose.Types.ObjectId): Promise<IVideo> {
     return this.videoModel.findById(id).lean();

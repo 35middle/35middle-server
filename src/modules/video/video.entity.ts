@@ -14,6 +14,9 @@ export class VideoEntity {
   thumbnail: string;
 
   @Expose()
+  preview: string;
+
+  @Expose()
   videoUrl: string;
 
   @Expose()

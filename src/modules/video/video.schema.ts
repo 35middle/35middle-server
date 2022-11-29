@@ -16,6 +16,9 @@ export class Video {
   videoUrl: string;
 
   @Prop()
+  preview: string;
+
+  @Prop()
   projectId: mongoose.Types.ObjectId;
 
   @Prop()
