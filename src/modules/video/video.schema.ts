@@ -22,6 +22,9 @@ export class Video {
   projectId: mongoose.Types.ObjectId;
 
   @Prop()
+  length: number;
+
+  @Prop()
   archivedAt: Date | null;
 }
 

@@ -7,6 +7,7 @@ export interface IVideo {
   thumbnail: string;
   videoUrl: string;
   preview: string;
+  length: number;
   archivedAt: Date | null;
   createdAt: Date;
   updatedAt: Date;

@@ -19,18 +19,21 @@ export class VideoService {
     preview,
     thumbnail,
     projectId,
+    length,
   }: {
     name: string;
     projectId: string;
     videoUrl: string;
     thumbnail: string;
     preview: string;
+    length: number;
   }): Promise<VideoEntity> {
     const video = await this.videoRepo.createVideo({
       name,
       videoUrl,
       preview,
       thumbnail,
+      length,
       projectId: new mongoose.Types.ObjectId(projectId),
     });
 
@@ -42,6 +45,13 @@ export class VideoService {
       new mongoose.Types.ObjectId(projectId),
     );
     return Promise.all(videos.map((video) => VideoEntity.fromObject(video)));
+  }
+
+  async findVideoById(videoId: string): Promise<VideoEntity> {
+    const video = await this.videoRepo.findById(
+      new mongoose.Types.ObjectId(videoId),
+    );
+    return VideoEntity.fromObject(video);
   }
 
   async archiveVideoById(videoId: string): Promise<VideoEntity> {
@@ -57,7 +67,6 @@ export class VideoService {
 
   async generateThumbnail(videoFile: Express.Multer.File): Promise<string> {
     const videoDuration = await getVideoDurationInSeconds(videoFile.path);
-    console.log(videoDuration);
 
     const thumbnailFilename = `thumbnail-${uuid()}.png`;
 

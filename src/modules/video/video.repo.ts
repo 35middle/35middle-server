@@ -16,12 +16,14 @@ export class VideosRepo {
     preview,
     thumbnail,
     projectId,
+    length,
   }: {
     name: string;
     projectId: mongoose.Types.ObjectId;
     videoUrl: string;
     thumbnail: string;
     preview: string;
+    length: number;
   }): Promise<IVideo> {
     const video = new this.videoModel({
       name,
@@ -29,6 +31,7 @@ export class VideosRepo {
       preview,
       thumbnail,
       projectId,
+      length,
       archivedAt: null,
     });
     return video.save();
