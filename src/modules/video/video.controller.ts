@@ -82,7 +82,7 @@ export class VideoController {
     const videoEntity = await this.videoService.saveVideo({
       name,
       projectId,
-      videoUrl: `https://d2ascafre7650i.cloudfront.net/videos/${videoFile.filename}`,
+      videoUrl: `https://video.35middle.com/videos/${videoFile.filename}`,
       thumbnail: videoThumbnail,
       preview: videoPreview,
       length,
