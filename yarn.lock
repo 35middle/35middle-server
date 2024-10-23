@@ -1774,10 +1774,10 @@
   dependencies:
     "@types/node" "*"
 
-"@types/hapi__joi@17.1.8":
-  version "17.1.8"
-  resolved "https://registry.npmjs.org/@types/hapi__joi/-/hapi__joi-17.1.8.tgz"
-  integrity sha512-omVytnOAiAfzGUOQArujJr3heWxPrDHW7MF1ieqix1ngoGdhtJmSSDFVM+ZAOa7UmhlGJtltdgUAT03mfDu6kg==
+"@types/hapi__joi@17.1.15":
+  version "17.1.15"
+  resolved "https://registry.yarnpkg.com/@types/hapi__joi/-/hapi__joi-17.1.15.tgz#f1daacb67386fb6e86393da811971721d0437e28"
+  integrity sha512-Ehq/YQB0ZqZGObrGngztxtThTiShrG0jlqyUSsNK3cebJSoyYgE/hdZvYt6lH4Wimi28RowDwnr87XseiemqAg==
 
 "@types/istanbul-lib-coverage@*", "@types/istanbul-lib-coverage@^2.0.0", "@types/istanbul-lib-coverage@^2.0.1":
   version "2.0.4"
